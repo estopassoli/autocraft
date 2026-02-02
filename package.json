@@ -1,0 +1,89 @@
+{
+  "name": "autocraft",
+  "version": "1.0.3",
+  "description": "Auto Crafter para Path of Exile 2",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "cli": "node index.js",
+    "calibrate": "node index.js --calibrate",
+    "test": "node index.js --test",
+    "build:flow": "webpack --config webpack.config.js",
+    "build": "npm run build:flow && electron-builder --win portable",
+    "build:dir": "npm run build:flow && electron-builder --win portable --dir",
+    "dist": "npm run build:flow && electron-builder --win"
+  },
+  "keywords": [
+    "poe2",
+    "automation",
+    "crafting"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@nut-tree-fork/nut-js": "^4.2.2",
+    "@xyflow/react": "^12.10.0",
+    "jimp": "^0.22.12",
+    "node-global-key-listener": "^0.3.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "screenshot-desktop": "^1.15.0",
+    "tesseract.js": "^5.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.6",
+    "@babel/preset-react": "^7.28.5",
+    "babel-loader": "^10.0.0",
+    "css-loader": "^7.1.2",
+    "electron": "^28.0.0",
+    "electron-builder": "^24.13.3",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.104.1",
+    "webpack-cli": "^6.0.1"
+  },
+  "build": {
+    "appId": "com.autocraft.poe2",
+    "productName": "AutoCraft",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "index.js",
+      "package.json",
+      "eng.traineddata",
+      "src/**/*",
+      "ui/**/*",
+      "!**/node_modules/node-global-key-listener/bin/MacKeyServer",
+      "!**/node_modules/node-global-key-listener/bin/XKeyServer"
+    ],
+    "extraResources": [
+      {
+        "from": "eng.traineddata",
+        "to": "eng.traineddata"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.png"
+    },
+    "portable": {
+      "artifactName": "${productName}-Portable-${version}.exe"
+    },
+    "asar": true,
+    "asarUnpack": [
+      "node_modules/@nut-tree-fork/**/*",
+      "node_modules/screenshot-desktop/**/*",
+      "node_modules/node-global-key-listener/bin/WinKeyServer.exe",
+      "eng.traineddata"
+    ]
+  }
+}

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoCraft - PoE2</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-cover">
+  <div class="container">
+    <header class="hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="hero-eyebrow">Path of Exile 2</div>
+        <h1>AutoCraft</h1>
+      </div>
+    </header>
+
+
+
+    <main>
+      <div id="tab-advanced" class="tab-panel active">
+        <section class="card">
+          <h2>🛠️ Editor Visual de Fluxo</h2>
+          <p class="helper-text" style="margin-bottom: 15px;">Monte seu pipeline de crafting visualmente arrastando e conectando nós.</p>
+          <div id="flow-editor-container"></div>
+        </section>
+      </div>
+
+      <!-- Configurações -->
+      <section class="card">
+        <h2>⚙️ Configurações</h2>
+        <div class="settings-grid">
+          <div class="setting-item">
+            <label for="maxAttempts">Máximo de Tentativas</label>
+            <input type="number" id="maxAttempts" value="1000" min="1" max="10000">
+          </div>
+          <div class="setting-item">
+            <label for="delayBetween">Delay entre tentativas (ms)</label>
+            <input type="number" id="delayBetween" value="50" min="20" max="5000">
+          </div>
+          <div class="setting-item">
+            <label for="delayAfterChaos">Delay após aplicar (ms)</label>
+            <input type="number" id="delayAfterChaos" value="30" min="20" max="2000">
+          </div>
+        </div>
+      </section>
+
+      <!-- Controles -->
+      <section class="card controls">
+        <button id="btnStart" class="btn btn-start">▶️ Iniciar Crafting</button>
+        <button id="btnStop" class="btn btn-stop" disabled>⏹️ Parar</button>
+        <button id="btnTest" class="btn btn-test">🔍 Testar OCR</button>
+      </section>
+
+      <!-- Status e Log -->
+      <section class="card status-section">
+        <h2>📊 Status</h2>
+        <div class="status-bar">
+          <div class="status-item">
+            <span class="status-label">Status:</span>
+            <span id="statusText" class="status-value">Parado</span>
+          </div>
+          <div class="status-item">
+            <span class="status-label">Tentativas:</span>
+            <span id="attemptCount" class="status-value">0</span>
+          </div>
+          <div class="status-item">
+            <span class="status-label">Tempo:</span>
+            <span id="elapsedTime" class="status-value">00:00</span>
+          </div>
+        </div>
+        <div class="log-search-bar" style="display: flex; gap: 8px; margin-bottom: 10px;">
+          <input type="text" id="logSearchInput" placeholder="🔍 Buscar nos logs..." style="flex: 1; padding: 8px 12px; background: rgba(20, 17, 26, 0.6); border: 1px solid rgba(212, 163, 81, 0.3); border-radius: 6px; color: #e8e8ea; font-size: 0.9rem;">
+          <button id="btnClearSearch" class="btn" style="padding: 8px 16px; background: rgba(212, 163, 81, 0.2); border: 1px solid rgba(212, 163, 81, 0.4); color: #d4a351;">Limpar</button>
+        </div>
+        <div class="log-container">
+          <div id="logOutput" class="log-output"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>⚠️ Use por sua conta e risco. Pressione <strong>F6</strong> para parar a qualquer momento.</p>
+    </footer>
+  </div>
+
+  <script>
+    // Carrega o React Flow por padrão já que é o único modo
+    let flowLoaded = false;
+    window.addEventListener('DOMContentLoaded', () => {
+      const script = document.createElement('script');
+      script.src = 'flow-editor-bundle.js';
+      script.onload = () => {
+        if (window.initFlowEditor) {
+          window.initFlowEditor('flow-editor-container');
+          flowLoaded = true;
+        }
+      };
+      document.body.appendChild(script);
+    });
+  </script>
+
+  <!-- Modal de Edição de Etapa REMOVIDO - Usar apenas fluxograma -->
+
+  <script src="renderer.js"></script>
+</body>
+</html>
