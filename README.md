@@ -1,498 +1,349 @@
-# 🎮 AutoCraft - Path of Exile 2
+# AutoCraft - Path of Exile 2
 
-**Seu assistente visual para automação de crafting em Path of Exile 2**
+**Visual automation assistant for crafting in Path of Exile 2**
 
-Crie pipelines de automação sem escrever código, use nosso editor visual intuitivo e compartilhe suas estratégias com a comunidade!
-
----
-
-## 🚀 O que é AutoCraft?
-
-AutoCraft é um bot de automação para PoE2 que deixa **você no controle** com uma interface visual amigável. Em vez de mexer em arquivos de configuração complexos, você **desenha seu fluxo de trabalho** e o AutoCraft executa.
-
-### Use Cases Comuns
-- **Chaos Spam**: Automatize múltiplas tentativas de chaos orb
-- **Multicraft**: Aplique várias moedas em sequência
-- **Verificação de Mods**: Procure por modificadores específicos automaticamente
-- **Loops Inteligentes**: Repita ações até encontrar o resultado desejado
+Create automation pipelines without writing code, use our intuitive visual editor, and share your strategies with the community!
 
 ---
 
-## ✨ O que torna AutoCraft especial?
+## What is AutoCraft?
 
-### 🎨 **Editor Visual Intuitivo**
-Ninguém precisa de código aqui. Você **arrasta, conecta e clica**. É como montar um fluxo de trabalho:
+AutoCraft is an automation bot for PoE2 that puts **you in control** with a user-friendly visual interface. Instead of dealing with complex configuration files, you **design your workflow visually** and AutoCraft executes it.
+
+### Common Use Cases
+- **Chaos Spam**: Automate multiple chaos orb attempts
+- **Multicraft**: Apply multiple currencies in sequence
+- **Modifier Verification**: Search for specific modifiers automatically
+- **Smart Loops**: Repeat actions until you get the desired result
+
+---
+
+## What Makes AutoCraft Special?
+
+### Visual Flow Editor
+No code needed here. You drag, connect, and click. It's like building a workflow:
 
 ```
 ┌─────────────┐
-│ Iniciar     │
+│ Start       │
 └──────┬──────┘
        │
   ┌────▼──────────────────┐
-  │ Clique Direito        │
-  │ Selecionar Chaos      │
+  │ Right Click           │
+  │ Select Chaos          │
   └────┬──────────────────┘
        │
   ┌────▼──────────────────┐
-  │ Clique Esquerdo       │
-  │ Aplicar no Item       │
+  │ Left Click            │
+  │ Apply to Item         │
   └────┬──────────────────┘
        │
   ┌────▼──────────────────┐
-  │ Verificar Região      │
-  │ Checar Tooltip        │
+  │ Check Region          │
+  │ Check Tooltip         │
   └────┬──────┬───────────┘
-   SIM│       │NÃO
+  YES  │       │ NO
        │       │
-    FIM      (volta ao início)
+    END      (back to start)
 ```
 
-### 🎯 **Procure Exatamente o que Quer**
-- Configure modificadores com ranges de valores
-- Procure por vários mods ao mesmo tempo
-- Sistema de matching inteligente que evita falsos positivos
-- OCR otimizado para ler tooltips com precisão
+### Search for Exactly What You Want
+- Configure modifiers with value ranges
+- Search for multiple mods at the same time
+- Smart matching system that avoids false positives
+- Optimized OCR for reading tooltips with precision
 
-### 📤 **Compartilhe suas Estratégias**
-- Exporte seus flows em JSON
-- Importe flows prontos de amigos ou comunidade
-- Reconfigure para seu PC em segundos
-- Crie sua biblioteca pessoal de automações
+### Share Your Strategies
+- Export your flows as JSON
+- Import ready-made flows from friends or community
+- Reconfigure for your PC in seconds
+- Build your personal library of automations
 
-### ⌨️ **Controle Simples**
-- **F6** para parar a qualquer momento
-- Logs em tempo real para acompanhar tudo
-- Interface responsiva que funciona bem
-- Suporta Shift automático para ações rápidas
+### Simple Controls
+- F6 to stop at any time
+- Real-time logs to track everything
+- Responsive interface that works well
+- Supports automatic Shift for fast actions
 
 ---
 
-## � Instalação Rápida
+## Quick Installation
 
-### Pré-requisitos
-- Node.js 16+ instalado
+### Prerequisites
+- Node.js 16+ installed
 - Windows (primary support)
-- Path of Exile 2 aberto em modo janela
+- Path of Exile 2 open in windowed mode
 
-### Passos
+### Steps
 
 ```bash
-# 1. Clone o repositório
+# 1. Clone the repository
 git clone https://github.com/estopassoli/autocraft.git
 cd autocraft
 
-# 2. Instale as dependências
+# 2. Install dependencies
 npm install
 
-# 3. Compile o editor visual
+# 3. Compile the visual editor
 npm run build:flow
 
-# 4. Inicie!
+# 4. Start!
 npm start
 ```
 
 ---
 
-## �📋 Tipos de Nós Disponíveis
+## Available Node Types
 
-### 👆 Clique Esquerdo (leftClick)
-Clica com botão esquerdo do mouse em uma posição
-- Captura de posição via interface
-- Opção para segurar Shift
-- Delay configurável após clique
+### Left Click (leftClick)
+Clicks with the left mouse button at a position
+- Position capture via interface
+- Option to hold Shift
+- Configurable delay after click
 
-### 👉 Clique Direito (rightClick)
-Clica com botão direito (selecionar currency, etc)
-- Captura de posição via interface
-- Delay configurável após clique
+### Right Click (rightClick)
+Clicks with the right mouse button (select currency, etc)
+- Position capture via interface
+- Configurable delay after click
 
-### 🔍 Verificar Região (checkRegion)
-Captura região da tela e verifica modificadores via OCR
-- Saída **SIM** (verde): Modificador encontrado
-- Saída **NÃO** (vermelha): Modificador não encontrado
-- Captura de região via interface
-- Compara com lista de modificadores configurados
+### Check Region (checkRegion)
+Captures a screen region and checks for modifiers via OCR
+- YES output (green): Modifier found
+- NO output (red): Modifier not found
+- Region capture via interface
+- Compares with configured modifier list
 
-### ⏱️ Delay
-Aguarda um tempo específico antes de continuar
-- Tempo configurável em milissegundos
-- Útil para aguardar tooltips aparecerem
-
----
-
-## 🚀 Instalação
-
-```bash
-# Instalar dependências
-npm install
-
-# Compilar editor visual
-npm run build:flow
-```
+### Delay
+Waits a specific time before continuing
+- Time configurable in milliseconds
+- Useful for waiting for tooltips to appear
 
 ---
 
-## 🎯 Como Usar
+## Getting Started
 
-### 1️⃣ Inicie a Aplicação
+### 1. Open the Interface
 
 ```bash
 npm start
 ```
 
-Você verá a janela principal do AutoCraft com 2 abas.
+You'll see the main AutoCraft window with 2 tabs.
 
-### 2️⃣ Vá para a aba "Avançado"
+### 2. Go to the "Advanced" Tab
 
-Aqui é onde acontece a magia! Você vai:
-- Ver o editor visual de fluxos
-- Adicionar nós (ações)
-- Conectar eles juntos
+This is where the magic happens. You will:
+- See the visual flow editor
+- Add nodes (actions)
+- Connect them together
 
-### 3️⃣ Crie seu Fluxo Visual
+### 3. Build Your First Flow
 
-**Exemplo: Chaos Spam básico**
+Example: Chaos Spam
 
-```
-Start
-  ↓
-Clique Direito → "Selecionar Chaos"
-  ↓
-Clique Esquerdo → "Aplicar no Item" (com Shift ✓)
-  ↓
-Verificar Região → "Checar Tooltip"
-  ↓ SIM → End (Encontrou!)
-  ↓ NÃO
-  └─→ Volta para "Aplicar no Item"
-```
+1. Click "Add Node" with type "Right Click"
+2. Click the edit button to configure
+3. Set a nice name like "Select Chaos"
+4. Click "Capture Position" and click the currency in your game
+5. Repeat for the next steps:
+   - Left Click: "Apply to Item"
+   - Check Region: "Check Tooltip" (mark Shift here)
+6. Connect nodes by dragging from the bottom circle to the top of the next node
 
-**Passo a passo:**
+### 4. Configure the Mods You're Looking For
 
-1. **Adicionar nós**: Selecione tipo no dropdown → Clique "➕ Adicionar este nó"
-2. **Configurar**: Clique ✏️ em cada nó e configure:
-   - Nome personalizado
-   - Posições (📍 Capturar)
-   - Região OCR (📸 Capturar Região)
-   - Delays, Shift, etc.
-3. **Conectar**: Arraste do círculo inferior para o superior do próximo nó
-4. **Organizar**: Use "🔄 Auto-organizar" ou arraste manualmente
-5. **Salvar**: Clique "💾 Salvar"
+In the "Simple" tab, write the modifiers:
 
-### 4️⃣ Configure Modificadores (aba Simples)
-
-```
-Exemplo:
-- #% increased Spell Damage (min: 50)
-- +# to maximum Life (min: 60)
-```
-
-### 5️⃣ Inicie o Craft
-
-- Clique "Iniciar Craft"
-- Minimize a janela
-- O bot executará seu fluxo automaticamente
-- Pressione **F6** para parar
-
----
-
-## 📤 Exportar e Importar Flows
-
-### Para Compartilhar seu Flow
-
-1. Termine de configurar seu flow
-2. Clique "📤 Exportar"
-3. Escolha um nome descritivo como `chaos-helmet-res-vida.json`
-4. Salve em algum lugar
-5. Compartilhe no Discord ou comunidade!
-
-### Para Usar um Flow de Alguém
-
-1. Receba o arquivo `.json`
-2. Clique "📂 Importar" na aba Avançado
-3. Selecione o arquivo
-4. **IMPORTANTE**: O flow carregará, mas as posições são do PC da pessoa que criou!
-5. Edite cada nó e **recapture as posições** clicando em "📍 Capturar"
-6. Configure os mods na aba Simples
-7. Teste com item barato primeiro!
-
----
-
-## 📰 Changelog
-
-### 🎉 v1.0.2 (Atual)
-**Quando**: Fevereiro, 2026
-
-**O que melhorou**:
-- ✅ **Histórico de Crafting Invertido**: Agora os mods mais recentes aparecem no topo da lista (DESC)
-- 🔧 Correção de ordenação para mostrar cronologia correta
-- 📊 Interface do histórico mais organizada
-
-**Como usar**:
-- O histórico está ao lado da aba principal
-- Veja os últimos mods encontrados na ordem que foram descobertos
-
----
-
-### 📋 Roadmap
-
-**v1.0.3** (em planejamento)
-- Melhorias na velocidade de OCR
-- Interface de configuração de ranges mais visual
-- Histórico salvo em arquivo (backup)
-
-**v1.1.0** (em discussão)
-- Suporte a múltiplos monitores
-- Atalhos customizáveis pelo usuário
-- Banco de flows compartilhado na comunidade
-
----
-
-## 🎓 Como Começar
-
-### 1. Abra a Interface
-
-```bash
-npm start
-```
-
-Você verá a janela principal do AutoCraft com 2 abas.
-
-### 2. Vá para a Aba "Avançado"
-
-Aqui é onde acontece a magia! Você vai:
-- Ver o editor visual de fluxos
-- Adicionar nós (ações)
-- Conectar eles juntos
-
-### 3. Construa seu Primeiro Fluxo
-
-**Exemplo simples: Chaos Spam**
-
-1. Clique em "➕ Adicionar este nó" com tipo "Clique Direito"
-2. Clique em ✏️ para configurar
-3. Defina um nome legal como "Selecionar Chaos"
-4. Clique "📍 Capturar Posição" e clique no currency no seu jogo
-5. Repita para os próximos passos:
-   - Clique Esquerdo: "Aplicar no Item"
-   - Verificar Região: "Checar Tooltip" (aqui você marca Shift ✓)
-6. Conecte os nós arrastando do círculo inferior de um para o superior do próximo
-
-### 4. Configure os Mods que Procura
-
-Na aba "Simples", escreva os modificadores:
 ```
 #% increased Spell Damage (min: 50)
 +# to maximum Life (min: 60)
 ```
 
-### 5. Execute!
+### 5. Execute
 
-- Clique "Iniciar Craft"
-- Minimize a janela
-- AutoCraft fará sua mágica
-- Pressione **F6** para parar
-
----
-
-## 🎮 Tipos de Nós Explicados
-
-### 👆 **Clique Esquerdo**
-Simples: clica com botão esquerdo onde você mandar.
-- Use para: clicar em botões, aplicar itens, etc
-- Captura: você indica onde clicar
-- Opção: marque Shift se quiser clicar segurando Shift
-- Delay: quantos milissegundos esperar depois
-
-### 👉 **Clique Direito**
-Clica com botão direito (menu contextual).
-- Use para: selecionar currency, abrir menus
-- Configuração: igual ao Clique Esquerdo
-
-### 🔍 **Verificar Região**
-Captura parte da tela, lê o texto e verifica se tem o mod que você quer.
-- Use para: ler tooltips e decidir o que fazer
-- Saída SIM (verde): encontrou o mod → vai para esse caminho
-- Saída NÃO (vermelha): não encontrou → vai para outro caminho
-- Captura: você marca a área do tooltip
-- Conectar: use para fazer loops (volta para o começo se não achar)
-
-### ⏱️ **Delay**
-Apenas espera um tempo.
-- Use para: aguardar tooltip aparecer, sincronizar ações
-- Configuração: tempo em milissegundos (1000 = 1 segundo)
+- Click "Start Craft"
+- Minimize the window
+- AutoCraft will do its magic
+- Press F6 to stop
 
 ---
 
-## ⚙️ Configuração Técnica
+## Export and Import Flows
 
-### Estrutura do Projeto
+### To Share Your Flow
+
+1. Finish configuring your flow
+2. Click "Export"
+3. Choose a descriptive name like `chaos-helmet-res-life.json`
+4. Save it somewhere
+5. Share on Discord or the community!
+
+### To Use Someone Else's Flow
+
+1. Receive the `.json` file
+2. Click "Import" in the Advanced tab
+3. Select the file
+4. Important: The flow will load, but positions are from the creator's PC!
+5. Edit each node and recapture positions by clicking "Capture Position"
+6. Configure the mods in the Simple tab
+7. Test with a cheap item first!
+
+---
+
+## Changelog
+
+### v1.0.2 (Current)
+**Released**: February 2026
+
+**What Improved**:
+- Crafting History Now Inverted: Recent mods now appear at the top (DESC order)
+- Fixed sorting to show correct chronology
+- Better organized history interface
+
+**How to Use**:
+- The history is displayed next to the main tab
+- See the last mods found in the order they were discovered
+
+### Roadmap
+
+**v1.0.3** (in planning)
+- OCR speed improvements
+- More visual range configuration interface
+- History saved to file (backup)
+
+**v1.1.0** (in discussion)
+- Multi-monitor support
+- User-customizable shortcuts
+- Shared flow library for the community
+
+---
+
+## Node Types Explained
+
+### Left Click
+Simple: clicks with the left button where you tell it to.
+- Use for: clicking buttons, applying items, etc
+- Capture: you indicate where to click
+- Option: mark Shift if you want to click while holding Shift
+- Delay: how many milliseconds to wait after
+
+### Right Click
+Clicks with the right button (context menu).
+- Use for: selecting currency, opening menus
+- Configuration: same as Left Click
+
+### Check Region
+Captures part of the screen, reads the text, and checks if the mod you want is there.
+- Use for: reading tooltips and deciding what to do
+- YES output (green): found the mod -> goes to that path
+- NO output (red): didn't find it -> goes to another path
+- Capture: you mark the tooltip area
+- Connect: use to create loops (goes back to the beginning if not found)
+
+### Delay
+Just waits a certain amount of time.
+- Use for: waiting for tooltip to appear, synchronizing actions
+- Configuration: time in milliseconds (1000 = 1 second)
+
+---
+
+## Technical Configuration
+
+### Project Structure
 
 ```
 autocraft/
-├── main.js                    # Núcleo Electron
+├── main.js                    # Electron core
 ├── ui/
-│   ├── index.html             # Interface principal
-│   ├── renderer.js            # Lógica da UI
-│   ├── flow-editor.jsx        # Editor visual (React Flow)
-│   └── crafting-history.html  # Histórico de crafts
+│   ├── index.html             # Main interface
+│   ├── renderer.js            # UI logic
+│   ├── flow-editor.jsx        # Visual editor (React Flow)
+│   └── crafting-history.html  # Crafting history
 ├── src/
-│   ├── config.js              # Configurações
-│   ├── crafter.js             # Motor de execução
-│   ├── mouseController.js     # Controle do mouse
-│   ├── ocr.js                 # Leitura de texto
-│   ├── screenCapture.js       # Captura de tela
-│   └── calibration.js         # Calibração
+│   ├── config.js              # Configuration
+│   ├── crafter.js             # Execution engine
+│   ├── mouseController.js     # Mouse control
+│   ├── ocr.js                 # Text reading
+│   ├── screenCapture.js       # Screen capture
+│   └── calibration.js         # Calibration
 ├── data/
-│   ├── items.json             # Banco de items
-│   └── mods.json              # Banco de modificadores
-└── logs/                      # Logs de execução
+│   ├── items.json             # Items database
+│   └── mods.json              # Modifiers database
+└── logs/                      # Execution logs
 ```
 
 ---
 
-## 📤 Exportar & Importar Flows
-
-### Exportar
-
-1. Crie e configure seu flow completamente
-2. Clique **📤 Exportar**
-3. Escolha nome e local (ex: `chaos-helmet-life-res.json`)
-4. Compartilhe o arquivo!
-
-### Importar
-
-1. Clique **📂 Importar**
-2. Selecione arquivo `.json`
-3. Flow carrega automaticamente
-4. **⚠️ IMPORTANTE**: Recapture posições para seu PC!
-5. Configure modificadores desejados
-6. Salve e use
-
----
-
-## 🎓 Documentação Adicional
-
-- **[FLOW_GUIDE.md](FLOW_GUIDE.md)**: Guia completo do editor visual
-- **[IMPORT_EXPORT_GUIDE.md](IMPORT_EXPORT_GUIDE.md)**: Tutorial de exportar/importar
-- **example-chaos-spam-flow.json**: Flow exemplo para começar
-
----
-
-## ⚙️ Configuração Avançada
-
-### Matching de Modificadores
-
-O sistema agora usa validação rigorosa:
-- Mínimo 60% das palavras-chave principais
-- Validação de números no range configurado
-- Filtro de palavras comuns ("to", "the", "of")
-- Logs detalhados para debug
-
-### Estrutura de Projeto
-
-```
-autocraft/
-├── main.js                    # Processo principal Electron
-├── index.js                   # CLI (legado)
-├── ui/
-│   ├── index.html             # Interface principal
-│   ├── renderer.js            # Lógica da UI
-│   ├── flow-editor.jsx        # Editor React Flow
-│   └── flow-editor-bundle.js  # Compilado
-├── src/
-│   ├── config.js              # Configurações
-│   ├── crafter.js             # Lógica de crafting
-│   ├── mouseController.js     # Controle de mouse
-│   ├── ocr.js                 # OCR Tesseract
-│   ├── screenCapture.js       # Captura de tela
-│   ├── calibration.js         # Calibração
-├── debug/                     # Capturas de debug
-├── example-chaos-spam-flow.json
-├── FLOW_GUIDE.md
-├── IMPORT_EXPORT_GUIDE.md
-└── package.json
-```
-
----
-
-## 🛠️ Comandos Disponíveis
+## Available Commands
 
 ```bash
-npm start           # Inicia interface gráfica
-npm run build:flow  # Compila editor React Flow
-npm run build       # Build completo para distribuição
-npm run cli         # Modo CLI (legado)
+npm start              # Start the graphical interface
+npm run build:flow     # Compile the visual editor
+npm run build          # Full build for distribution
 ```
 
 ---
 
-## 🔧 Troubleshooting
+## Troubleshooting
 
-### Flow não funciona
-1. ✅ Verificou se TODAS as posições foram capturadas?
-2. ✅ Região do tooltip cobre TODO o texto?
-3. ✅ Modificadores estão configurados na aba Simples?
-4. ✅ Testou cada posição individualmente?
+### Flow won't execute
+1. Did you capture ALL positions? Click the edit button on each node
+2. Does the OCR region cover ALL the tooltip text? Recapture larger
+3. Are the mods written in the Simple tab? Copy from the game if needed
+4. Is the game in windowed mode (not fullscreen)?
 
-### OCR não detecta modificadores
-1. Aumente delay antes de verificar tooltip
-2. Recapture região do tooltip maior
-3. Teste OCR na aba Simples primeiro
-4. Verifique logs para ver o que está sendo lido
+### OCR not detecting modifiers
+1. Increase the delay before Check Region (test 500ms)
+2. Recapture the region larger (include more space around it)
+3. Try recapturing when the tooltip is clearly visible
+4. Check the logs to see what's being read
 
-### Cliques errados
-1. Recapture posições - podem ter mudado
-2. Jogo em modo janela (não fullscreen)
-3. Minimize AutoCraft antes de iniciar
-
----
-
-## 💡 Dicas Pro
-
-1. **Use nomes descritivos**: "Click Chaos Orb Slot 1" é melhor que "rightClick"
-2. **Teste com item barato**: Sempre teste flows novos antes de usar em items valiosos
-3. **Documente seus flows**: Ao exportar, anote para que serve
-4. **Biblioteca organizada**: Crie pasta com flows por tipo de item/craft
-5. **Ajuste delays**: Se tooltip não aparece, aumente delay entre ações
-6. **Shift inteligente**: Marque Shift apenas no primeiro clique após selecionar currency
-7. **Comunidade**: Compartilhe seus melhores flows!
+### Clicks in wrong places
+1. The game may have moved - minimize AutoCraft before starting
+2. Try with the game in windowed mode
+3. Recapture positions
+4. Test manually in PoE2 before running the flow
 
 ---
 
-## ⚠️ Avisos Importantes
+## Pro Tips
 
-### Responsabilidade
-Automação pode ir contra os Termos de Serviço de PoE2. Use com sabedoria e moderação.
-
-### Posições são Pessoais
-- Cada PC tem resolução diferente
-- **SEMPRE recapture posições** ao importar flows
-- Não confie cegamente em flows baixados
-
-### RNG é RNG
-- AutoCraft não muda probabilidades
-- Só automatiza cliques
-- Paciência e persistência são suas melhores amigas
+| Tip | What | Why |
+|-----|------|-----|
+| Use descriptive names | Use "Click Chaos Orb" instead of "rightClick" | Makes it easier to understand the flow later |
+| Test with cheap items | Always test new flows on cheap items first | Avoids losing valuable items |
+| Adjust delays | If tooltip doesn't appear, increase delay | Your PC might be slower |
+| Organize flows | Create folders by craft type | Reuse them later |
+| Smart Shift | Mark it only on the first click after currency | Improves speed |
+| Monitor initial runs | Follow the first loops | Validates everything works |
 
 ---
 
-## 🤝 Queremos Ouvir Você!
+## Important Warnings
 
-- 🐛 Encontrou bug? Abra uma issue!
-- 💡 Tem ideia? Compartilhe uma sugestão
-- 📖 Melhorou documentação? Faça um PR
-- 🎯 Criou um flow legal? Compartilhe com a comunidade!
+### Your Responsibility
+Automation may violate Path of Exile 2's Terms of Service. Use with wisdom and moderation.
+
+### Positions Are Personal
+- Each PC has different resolution
+- ALWAYS recapture positions when importing flows
+- Don't blindly trust downloaded flows
+
+### RNG is RNG
+- AutoCraft doesn't change probabilities
+- It just automates clicks
+- Patience and persistence are your best friends
 
 ---
 
-## 📜 Licença
+## License
 
-ISC - Use à vontade!
+ISC - Use freely!
 
 ---
 
-## 🎮 Bom Craft, Exile! 🔥
+## Good Luck Crafting!
 
-Feito com ❤️ para a comunidade PoE2.
+Made with love for the PoE2 community.
 
-Dúvidas? Abra uma issue no GitHub!
+Questions? Open an issue on GitHub!
