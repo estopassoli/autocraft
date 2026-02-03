@@ -54,6 +54,7 @@
         <button id="btnStart" class="btn btn-start">▶️ Iniciar Crafting</button>
         <button id="btnStop" class="btn btn-stop" disabled>⏹️ Parar</button>
         <button id="btnTest" class="btn btn-test">🔍 Testar OCR</button>
+        <button id="btnAIConfig" class="btn btn-config">⚙️ Config IA</button>
       </section>
 
       <!-- Status e Log -->
@@ -88,6 +89,65 @@
     </footer>
   </div>
 
+  <!-- Modal de Configuração de IA -->
+  <div id="aiConfigModal" class="modal-overlay" style="display: none;">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h2>⚙️ Configurar IA (Ollama)</h2>
+        <button class="btn-close" onclick="closeAIConfigModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="ai-config-info">
+          🤖 Configure uma instância local do Ollama para usar modelos Vision (como LLaVA) para análise de modificadores.
+          <br><br>
+          <a href="https://ollama.ai" target="_blank">Instale Ollama →</a>
+        </div>
+
+        <div class="form-group">
+          <label for="ollamaHost">Host do Ollama</label>
+          <input type="text" id="ollamaHost" placeholder="localhost" value="localhost">
+          <div class="form-help">Endereço IP ou hostname do servidor Ollama</div>
+        </div>
+
+        <div class="form-group">
+          <label for="ollamaPort">Porta</label>
+          <input type="number" id="ollamaPort" placeholder="11434" value="11434" min="1" max="65535">
+          <div class="form-help">Porta padrão do Ollama é 11434</div>
+        </div>
+
+        <div class="form-section">
+          <h3>📋 Selecione o Modelo</h3>
+          <div id="modelList" class="model-list">
+            <div style="padding: 20px; text-align: center; color: var(--text-secondary);">
+              Carregando modelos disponíveis...
+            </div>
+          </div>
+          <input type="text" id="selectedModel" style="display: none;" value="llava">
+          <div class="form-help" style="margin-top: 10px;">
+            Recomendado: llava ou llava:13b para melhor desempenho
+          </div>
+        </div>
+
+        <button id="btnTestOllama" class="btn-test-connection">🔌 Testar Conexão</button>
+        <div id="testStatus" style="display: none;"></div>
+
+        <div class="form-section" style="margin-top: 16px;">
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--text-primary); font-weight: 500;">
+            <input type="checkbox" id="enableAI" style="cursor: pointer;">
+            Usar IA em vez de OCR quando disponível
+          </label>
+          <div class="form-help" style="margin-top: 8px;">
+            Quando desabilitado, voltará a usar OCR (Tesseract)
+          </div>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-cancel" onclick="closeAIConfigModal()">Cancelar</button>
+        <button id="btnSaveAIConfig" class="btn btn-start" style="flex: unset; padding: 10px 24px;">Salvar Configuração</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     // Carrega o React Flow por padrão já que é o único modo
     let flowLoaded = false;
@@ -101,6 +161,21 @@
         }
       };
       document.body.appendChild(script);
+    });
+
+    function openAIConfigModal() {
+      document.getElementById('aiConfigModal').style.display = 'flex';
+    }
+
+    function closeAIConfigModal() {
+      document.getElementById('aiConfigModal').style.display = 'none';
+    }
+
+    // Fecha o modal ao clicar fora
+    document.getElementById('aiConfigModal').addEventListener('click', (e) => {
+      if (e.target.id === 'aiConfigModal') {
+        closeAIConfigModal();
+      }
     });
   </script>
 

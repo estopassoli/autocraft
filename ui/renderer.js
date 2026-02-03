@@ -18,7 +18,13 @@ const state = {
   modifierList: [],
   flowSteps: null,
   flowNodes: null,
-  flowEdges: null
+  flowEdges: null,
+  aiConfig: {
+    host: 'localhost',
+    port: 11434,
+    model: 'llava',
+    enabled: false
+  }
 };
 
 // Elementos DOM - APENAS FLUXOGRAMA
@@ -29,6 +35,7 @@ const elements = {
   btnStart: document.getElementById('btnStart'),
   btnStop: document.getElementById('btnStop'),
   btnTest: document.getElementById('btnTest'),
+  btnAIConfig: document.getElementById('btnAIConfig'),
   statusText: document.getElementById('statusText'),
   attemptCount: document.getElementById('attemptCount'),
   elapsedTime: document.getElementById('elapsedTime'),
@@ -350,6 +357,143 @@ ipcRenderer.on('position-selected', (event, { mode, position, stepTarget, contex
   state.selectionMode = null;
   updatePositionDisplays();
 });
+
+// ==================== GERENCIAMENTO DE CONFIGURAÇÃO DE IA ====================
+
+// Abrir dialog de configuração de IA
+elements.btnAIConfig.addEventListener('click', () => {
+  openAIConfigModal();
+  loadAIConfigUI();
+});
+
+// Salvar configuração de IA
+document.getElementById('btnSaveAIConfig').addEventListener('click', saveAIConfig);
+
+// Testar conexão Ollama
+document.getElementById('btnTestOllama').addEventListener('click', testOllamaConnection);
+
+async function loadAIConfigUI() {
+  const hostInput = document.getElementById('ollamaHost');
+  const portInput = document.getElementById('ollamaPort');
+  const enableCheckbox = document.getElementById('enableAI');
+  const modelList = document.getElementById('modelList');
+  const selectedModel = document.getElementById('selectedModel');
+  
+  // Carrega configuração salva
+  hostInput.value = state.aiConfig.host || 'localhost';
+  portInput.value = state.aiConfig.port || 11434;
+  enableCheckbox.checked = state.aiConfig.enabled || false;
+  selectedModel.value = state.aiConfig.model || 'llava';
+  
+  // Tenta carregar modelos disponíveis
+  modelList.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--text-secondary);">Carregando modelos...</div>';
+  
+  try {
+    const response = await fetch(`http://${hostInput.value}:${portInput.value}/api/tags`);
+    if (response.ok) {
+      const data = await response.json();
+      const models = data.models || [];
+      
+      if (models.length > 0) {
+        modelList.innerHTML = '';
+        models.forEach(model => {
+          const isSelected = model.name === selectedModel.value || model.name.split(':')[0] === selectedModel.value;
+          const modelItem = document.createElement('label');
+          modelItem.className = `model-item ${isSelected ? 'selected' : ''}`;
+          modelItem.style.display = 'flex';
+          modelItem.style.alignItems = 'center';
+          modelItem.style.gap = '8px';
+          
+          const input = document.createElement('input');
+          input.type = 'radio';
+          input.name = 'model';
+          input.value = model.name;
+          input.checked = isSelected;
+          input.addEventListener('change', (e) => {
+            selectedModel.value = e.target.value;
+            document.querySelectorAll('.model-item').forEach(item => {
+              item.classList.remove('selected');
+            });
+            modelItem.classList.add('selected');
+          });
+          
+          const label = document.createElement('span');
+          label.textContent = `${model.name}`;
+          
+          modelItem.appendChild(input);
+          modelItem.appendChild(label);
+          modelList.appendChild(modelItem);
+        });
+      } else {
+        modelList.innerHTML = '<div style="padding: 20px; text-align: center; color: var(--text-secondary);">Nenhum modelo encontrado. Instale um modelo no Ollama (ex: ollama pull llava)</div>';
+      }
+    } else {
+      modelList.innerHTML = '<div style="padding: 20px; text-align: center; color: #ff6b6b;">Erro ao conectar ao Ollama</div>';
+    }
+  } catch (error) {
+    modelList.innerHTML = `<div style="padding: 20px; text-align: center; color: #ff6b6b;">Erro: ${error.message}</div>`;
+  }
+}
+
+async function testOllamaConnection() {
+  const hostInput = document.getElementById('ollamaHost');
+  const portInput = document.getElementById('ollamaPort');
+  const testStatus = document.getElementById('testStatus');
+  const btnTest = document.getElementById('btnTestOllama');
+  
+  testStatus.style.display = 'flex';
+  testStatus.className = 'test-connection-status loading';
+  testStatus.innerHTML = '<span class="status-indicator loading"></span> Testando conexão...';
+  btnTest.disabled = true;
+  
+  try {
+    const timeout = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Timeout')), 5000)
+    );
+    
+    const response = await Promise.race([
+      fetch(`http://${hostInput.value}:${portInput.value}/api/tags`),
+      timeout
+    ]);
+    
+    if (response.ok) {
+      testStatus.className = 'test-connection-status success';
+      testStatus.innerHTML = '<span class="status-indicator success"></span> Conexão bem-sucedida!';
+      log('✅ Conexão com Ollama estabelecida', 'success');
+    } else {
+      testStatus.className = 'test-connection-status error';
+      testStatus.innerHTML = '<span class="status-indicator error"></span> Erro: HTTP ' + response.status;
+    }
+  } catch (error) {
+    testStatus.className = 'test-connection-status error';
+    testStatus.innerHTML = `<span class="status-indicator error"></span> Erro: ${error.message}`;
+    log(`❌ Erro ao conectar com Ollama: ${error.message}`, 'error');
+  } finally {
+    btnTest.disabled = false;
+  }
+}
+
+async function saveAIConfig() {
+  const hostInput = document.getElementById('ollamaHost');
+  const portInput = document.getElementById('ollamaPort');
+  const enableCheckbox = document.getElementById('enableAI');
+  const selectedModel = document.getElementById('selectedModel');
+  
+  const newConfig = {
+    host: hostInput.value || 'localhost',
+    port: parseInt(portInput.value) || 11434,
+    model: selectedModel.value || 'llava',
+    enabled: enableCheckbox.checked
+  };
+  
+  state.aiConfig = newConfig;
+  
+  // Envia para o main process para salvar e aplicar
+  ipcRenderer.send('update-ai-config', newConfig);
+  
+  log(`✅ Configuração de IA salva (${newConfig.enabled ? 'Habilitado' : 'Desabilitado'})`, 'success');
+  closeAIConfigModal();
+}
 
 // Tecla ESC para cancelar
 document.addEventListener('keydown', (e) => {

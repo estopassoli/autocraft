@@ -14,6 +14,14 @@ const DEBUG_DIR = path.join(APP_DATA_DIR, 'debug');
 process.env.AUTOCRAFT_DATA_DIR = APP_DATA_DIR;
 process.env.AUTOCRAFT_DEBUG = IS_DEV ? '1' : '0';
 
+// Configuração global de IA
+global.aiConfig = {
+  enabled: false,
+  host: 'localhost',
+  port: 11434,
+  model: 'llava'
+};
+
 // Garantir que os diretórios existem apenas em dev
 if (IS_DEV) {
   [APP_DATA_DIR, LOGS_DIR, SCREENSHOTS_DIR, DEBUG_DIR].forEach((dir) => {
@@ -1489,6 +1497,24 @@ ipcMain.on('set-always-on-top', (event, value) => {
   if (mainWindow && !mainWindow.isDestroyed()) {
     mainWindow.setAlwaysOnTop(value);
   }
+});
+
+ipcMain.on('update-ai-config', (event, aiConfig) => {
+  // Atualiza a configuração de IA globalmente
+  // Isso será usado no próximo start-crafting
+  global.aiConfig = { ...global.aiConfig, ...aiConfig };
+  
+  console.log('[IPC] Configuração de IA atualizada:', global.aiConfig);
+  
+  // Persiste a configuração (salva em arquivo para ser carregada depois)
+  try {
+    const configPath = path.join(APP_DATA_DIR, 'ai-config.json');
+    fs.writeFileSync(configPath, JSON.stringify(global.aiConfig, null, 2));
+  } catch (error) {
+    console.error('Erro ao salvar configuração de IA:', error);
+  }
+  
+  sendLog(`⚙️ Configuração de IA atualizada: ${aiConfig.enabled ? '✅ Habilitado' : '❌ Desabilitado'}`, 'info');
 });
 
 ipcMain.on('test-ocr', async (event, { tooltipRegion }) => {

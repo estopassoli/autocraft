@@ -1,6 +1,7 @@
 import { config } from './config.js';
 import { captureRegion, saveCapture } from './screenCapture.js';
 import { extractText, hasDesiredModifier, analyzeModifiers, initOCR, terminateOCR } from './ocr.js';
+import { aiAnalyzer } from './aiAnalyzer.js';
 import { applyChaosOrb, hoverItem, delay } from './mouseController.js';
 import fs from 'fs';
 import path from 'path';
@@ -37,6 +38,17 @@ export class AutoCrafter {
     // Inicializa OCR
     await initOCR();
     
+    // Inicializa IA se configurada
+    await aiAnalyzer.initialize();
+    const aiStatus = aiAnalyzer.getStatus();
+    if (aiStatus.enabled) {
+      console.log(`✅ Usando análise com IA (${aiStatus.config.model})`);
+    } else if (aiStatus.useAI) {
+      console.log('✅ Usando Ollama como método principal');
+    } else {
+      console.log('📊 Usando OCR como método de análise');
+    }
+    
     this.isRunning = true;
     this.startTime = Date.now();
     this.attempts = 0;
@@ -61,16 +73,14 @@ export class AutoCrafter {
         // 2. Captura a região do tooltip
         const imageBuffer = await captureRegion(config.modifierRegion);
         
-        // 3. Extrai texto via OCR
-        const text = await extractText(imageBuffer);
-        
-        // 4. Analisa os modificadores
-        const analysis = analyzeModifiers(text);
+        // 3. Analisa com IA ou OCR conforme configurado
+        const analysis = await aiAnalyzer.analyzeImage(imageBuffer);
         
         // Debug: salva algumas capturas
         if (this.attempts <= 5 || this.attempts % 50 === 0) {
           await saveCapture(imageBuffer, `attempt_${this.attempts}.png`);
-          console.log(`OCR Attempt ${this.attempts}:`, text.substring(0, 100));
+          const method = analysis.method || 'desconhecido';
+          console.log(`[${method.toUpperCase()}] Attempt ${this.attempts}:`, analysis.text?.substring(0, 100) || 'Sem texto');
         }
         
         // 5. Verifica se encontrou o mod desejado
@@ -86,7 +96,9 @@ export class AutoCrafter {
           console.log('='.repeat(50));
           console.log(`Tentativas: ${this.attempts}`);
           console.log(`Tempo total: ${Math.floor((Date.now() - this.startTime) / 1000)}s`);
-          console.log(`Texto detectado: ${text}`);
+          console.log(`Método: ${(analysis.method || 'desconhecido').toUpperCase()}`);
+          console.log(`Confiança: ${analysis.confidence || 'N/A'}%`);
+          console.log(`Texto detectado: ${analysis.text}`);
           
           // Toca um beep de alerta
           process.stdout.write('\x07'); // Beep

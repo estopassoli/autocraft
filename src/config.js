@@ -48,6 +48,17 @@ const config = {
   ocr: {
     language: "eng",
     confidence: 60          // Confiança mínima do OCR (0-100)
+  },
+
+  // Configurações de IA (Ollama/LLM Local)
+  ai: {
+    enabled: false,         // Se deve usar IA em vez de OCR
+    ollama: {
+      host: 'localhost',    // Host do Ollama
+      port: 11434,          // Porta do Ollama
+      model: 'llava',       // Modelo a usar (llava, llava:13b, etc)
+      timeout: 30000        // Timeout em ms
+    }
   }
 };
 
